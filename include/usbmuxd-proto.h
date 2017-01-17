@@ -62,23 +62,23 @@ struct usbmuxd_header {
 	uint32_t version;   // protocol version
 	uint32_t message;   // message type
 	uint32_t tag;       // responses to this query will echo back this tag
-} __attribute__((__packed__));
+};
 
 struct usbmuxd_result_msg {
 	struct usbmuxd_header header;
 	uint32_t result;
-} __attribute__((__packed__));
+};
 
 struct usbmuxd_connect_request {
 	struct usbmuxd_header header;
 	uint32_t device_id;
 	uint16_t port;   // TCP port number
 	uint16_t reserved;   // set to zero
-} __attribute__((__packed__));
+};
 
 struct usbmuxd_listen_request {
 	struct usbmuxd_header header;
-} __attribute__((__packed__));
+};
 
 struct usbmuxd_device_record {
 	uint32_t device_id;
@@ -86,7 +86,7 @@ struct usbmuxd_device_record {
 	char serial_number[256];
 	uint16_t padding;
 	uint32_t location;
-} __attribute__((__packed__));
+};
 
 #ifdef __cplusplus
 }

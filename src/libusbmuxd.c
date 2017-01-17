@@ -30,15 +30,20 @@
 #include <config.h>
 #endif
 
+#ifndef LIBUSBMUXD_STATIC
 #ifdef WIN32
-  #define USBMUXD_API __declspec( dllexport )
+#define USBMUXD_API __declspec( dllexport )
 #else
-  #ifdef HAVE_FVISIBILITY
-    #define USBMUXD_API __attribute__((visibility("default")))
-  #else
-    #define USBMUXD_API
-  #endif
+#ifdef HAVE_FVISIBILITY
+#define USBMUXD_API __attribute__((visibility("default")))
+#else
+#define USBMUXD_API
 #endif
+#endif
+#else
+#define USBMUXD_API
+#endif
+
 
 #ifndef EPROTO
 #define EPROTO 134
@@ -692,7 +697,7 @@ static int get_next_event(int sfd, usbmuxd_event_cb_t callback, void *user_data)
 		memset(devinfo->udid, '\0', sizeof(devinfo->udid));
 		memcpy(devinfo->udid, dev->serial_number, sizeof(devinfo->udid));
 
-		if (strcasecmp(devinfo->udid, "ffffffffffffffffffffffffffffffffffffffff") == 0) {
+		if (stricmp(devinfo->udid, "ffffffffffffffffffffffffffffffffffffffff") == 0) {
 			sprintf(devinfo->udid + 32, "%08x", devinfo->handle);
 		}
 
@@ -849,7 +854,7 @@ static usbmuxd_device_info_t *device_info_from_device_record(struct usbmuxd_devi
 	memset(devinfo->udid, '\0', sizeof(devinfo->udid));
 	memcpy(devinfo->udid, dev->serial_number, sizeof(devinfo->udid));
 
-	if (strcasecmp(devinfo->udid, "ffffffffffffffffffffffffffffffffffffffff") == 0) {
+	if (stricmp(devinfo->udid, "ffffffffffffffffffffffffffffffffffffffff") == 0) {
 		sprintf(devinfo->udid + 32, "%08x", devinfo->handle);
 	}
 
